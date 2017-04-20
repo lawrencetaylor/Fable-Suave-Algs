@@ -19,6 +19,7 @@ type SubModel =
   | NoSubModel
   | LoginModel of Login.Model
   | WishListModel of WishList.Model
+  | SortingModel of Sort.Model
 
 type Model =
   { Page : Page
@@ -31,7 +32,8 @@ let pageParser : Parser<Page->_,_> =
     oneOf 
         [ map Home (s "home")
           map Page.Login (s "login")
-          map WishList (s "wishlist") ]
+          map WishList (s "wishlist")
+          map Sort (s "sort") ]
 
 let urlUpdate (result:Page option) model =
     match result with
@@ -50,6 +52,10 @@ let urlUpdate (result:Page option) model =
             { model with Page = page; SubModel = WishListModel m }, Cmd.map WishListMsg cmd
         | None ->
             model, Cmd.ofMsg Logout
+
+    | Some (Page.Sort as page) ->
+        let m,cmd = Sort.init ()
+        { model with Page = page; SubModel = SortingModel m }, Cmd.map LoginMsg cmd
 
     | Some (Home as page) ->
         { model with Page = page; Menu = { model.Menu with query = "" } }, []
@@ -107,6 +113,14 @@ let update msg model =
                 SubModel = WishListModel m }, cmd
         | _ -> model, Cmd.none
 
+    | BubbleSortMsg msg -> 
+        match model.SubModel with
+        | SortingModel m -> 
+            let m, cmd = Sort.update msg m
+            let cmd = Cmd.map BubbleSortMsg cmd
+            { model with SubModel = SortingModel m}, cmd
+        | _ -> model, Cmd.none
+
     | AppMsg.LoggedIn ->
         let nextPage = Page.WishList
         let m,cmd = urlUpdate (Some nextPage) model
@@ -149,6 +163,12 @@ let viewPage model dispatch =
         match model.SubModel with
         | WishListModel m ->
             [ div [ ] [ lazyView2 WishList.view m dispatch ]]
+        | _ -> [ ]
+
+    | Page.Sort ->
+        match model.SubModel with
+        | SortingModel m ->
+            [ div [ ] [ lazyView2 Sort.view m dispatch ]]
         | _ -> [ ]
 
 /// Constructs the view for the application given the model.

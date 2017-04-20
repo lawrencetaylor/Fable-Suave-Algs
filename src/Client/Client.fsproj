@@ -7,9 +7,11 @@
     <Compile Include="Messages.fs" />
     <Compile Include="Style.fs" />
     <Compile Include="Utils.fs" />
+    <Compile Include="pages/sorting/BubbleSort.fs" />
     <Compile Include="pages/Menu.fs" />
     <Compile Include="pages/WishList.fs" />
     <Compile Include="pages/Login.fs" />
+    <Compile Include="pages/Sort.fs" />
     <Compile Include="App.fs" />
     <ProjectReference Include="../../node_modules/fable-powerpack/Fable.PowerPack.fsproj" />    
     <ProjectReference Include="../../node_modules/fable-elmish-browser/Fable.Elmish.Browser.fsproj" />    

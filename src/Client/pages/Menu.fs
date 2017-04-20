@@ -23,7 +23,8 @@ let init() = { User = Utils.load "user"; query = "" },Cmd.none
 
 let view (model:Model) dispatch =
     div [ centerStyle "row" ] [ 
-          yield viewLink Home "Home"
+          yield viewLink Home "Home2"
+          yield viewLink Sort "Sort"
           if model.User <> None then 
               yield viewLink Page.WishList "Wishlist"
           if model.User = None then 

@@ -8,6 +8,8 @@ This development stack is designed to be used with minimal tooling. A instance o
 
 > If you have problems with Ionide and the new .fsproj format, try setting the environment variable `UseCommonOutputDirectory` in your shell to `true`, and restart VS Code.
 
+https://github.com/ionide/ionide-vscode-fsharp/issues/398#issuecomment-290362515
+
 Start the development mode with:
 
     > build.cmd run // on windows

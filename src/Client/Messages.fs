@@ -22,6 +22,18 @@ type WishListMsg =
   | LinkChanged of string
   | FetchError of exn
 
+type BubbleEvent<'a> = 
+  | Compare of 'a[]*int*int*int
+  | Swapped of 'a[]*int*int*int
+  | Complete of 'a[]
+  | NewPass of 'a[]
+
+type BubbleMsg = 
+  | AutoStart
+  | AutoStop
+  | NextMove
+  | SideEffect of BubbleEvent<int>
+
 /// The different messages processed by the application
 type AppMsg = 
   | LoggedIn
@@ -30,6 +42,7 @@ type AppMsg =
   | OpenLogIn
   | LoginMsg of LoginMsg
   | WishListMsg of WishListMsg
+  | BubbleSortMsg of BubbleMsg
   | Logout
 
 /// The user data sent with every message.
@@ -42,9 +55,11 @@ type Page =
   | Home 
   | Login
   | WishList
+  | Sort
 
 let toHash =
   function
   | Home -> "#home"
   | Login -> "#login"
   | WishList -> "#wishlist"
+  | Sort -> "#sort"
